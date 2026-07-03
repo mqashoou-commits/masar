@@ -11,22 +11,22 @@ app.use(cors());
 app.use(express.json({ limit: '2mb' }));
 app.use(express.static('public'));
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
-const MODEL = 'llama-3.3-70b-versatile';
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const QWEN_API_KEY = process.env.DASHSCOPE_API_KEY;
+const MODEL = 'qwen-turbo';
+const QWEN_URL = 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions';
 
-if (!GROQ_API_KEY) {
-  console.warn('[masar] WARNING: GROQ_API_KEY is not set. Add it to a .env file before running real requests.');
+if (!QWEN_API_KEY) {
+  console.warn('[masar] WARNING: DASHSCOPE_API_KEY is not set. Add it to a .env file before running real requests.');
 }
 
-// ---- helper: call Groq (OpenAI-compatible chat completions) ----
+// ---- helper: call Qwen Cloud (OpenAI-compatible chat completions) ----
 // messages: [{role: 'user'|'assistant', content: '...'}]
-async function callGroq({ system, messages, maxTokens = 1200, temperature = 0.4 }) {
-  const res = await fetch(GROQ_URL, {
+async function callQwen({ system, messages, maxTokens = 1200, temperature = 0.4 }) {
+  const res = await fetch(QWEN_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${GROQ_API_KEY}`,
+      'Authorization': `Bearer ${QWEN_API_KEY}`,
     },
     body: JSON.stringify({
       model: MODEL,
@@ -38,7 +38,7 @@ async function callGroq({ system, messages, maxTokens = 1200, temperature = 0.4 
 
   if (!res.ok) {
     const errText = await res.text();
-    throw new Error(`Groq API error (${res.status}): ${errText}`);
+    throw new Error(`Qwen API error (${res.status}): ${errText}`);
   }
 
   const data = await res.json();
@@ -81,7 +81,7 @@ Write all string values in ${lang === 'ar' ? 'Arabic' : 'English'}.
 Give 3-5 strengths, 2-4 gaps, and exactly 3 suggested roles ordered from best fit to third-best fit.
 Be specific and reference actual details from the CV text, not generic advice.`;
 
-    const raw = await callGroq({
+    const raw = await callQwen({
       system,
       messages: [{ role: 'user', content: `CV TEXT:\n\n${cvText}` }],
     });
@@ -113,7 +113,7 @@ Rules:
       ? history
       : [{ role: 'user', content: 'Start the interview.' }];
 
-    const reply = await callGroq({ system, messages, maxTokens: 400 });
+    const reply = await callQwen({ system, messages, maxTokens: 400 });
     res.json({ reply });
   } catch (err) {
     console.error(err);
