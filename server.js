@@ -121,6 +121,13 @@ Rules:
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`[masar] server running on http://localhost:${PORT}`);
-});
+
+// Only start a listening server when run directly (local development).
+// On Vercel, this file is imported as a serverless function handler instead.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`[masar] server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
