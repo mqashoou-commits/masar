@@ -21,7 +21,7 @@ if (!GROQ_API_KEY) {
 
 // ---- helper: call Groq (OpenAI-compatible chat completions) ----
 // messages: [{role: 'user'|'assistant', content: '...'}]
-async function callGroq({ system, messages, maxTokens = 1200 }) {
+async function callGroq({ system, messages, maxTokens = 1200, temperature = 0.4 }) {
   const res = await fetch(GROQ_URL, {
     method: 'POST',
     headers: {
@@ -31,6 +31,7 @@ async function callGroq({ system, messages, maxTokens = 1200 }) {
     body: JSON.stringify({
       model: MODEL,
       max_tokens: maxTokens,
+      temperature,
       messages: [{ role: 'system', content: system }, ...messages],
     }),
   });
@@ -100,7 +101,7 @@ app.post('/api/interview', async (req, res) => {
     const { role = 'General', lang = 'ar', history = [] } = req.body;
 
     const system = `You are Masar's interview simulator, acting as a professional but warm interviewer for a "${role}" position.
-Language: respond only in ${lang === 'ar' ? 'Arabic' : 'English'}.
+STRICT LANGUAGE RULE: Respond ONLY in ${lang === 'ar' ? 'Arabic (Modern Standard Arabic, Arabic script only)' : 'English'}. Do not use any other language, script, or characters under any circumstances — no Chinese, no Vietnamese, no transliteration, nothing outside ${lang === 'ar' ? 'Arabic' : 'English'}.
 Rules:
 - If the conversation is just starting (no prior assistant turns), greet the candidate briefly and ask your first interview question.
 - Otherwise, first give short, specific feedback (2-3 sentences) on the candidate's last answer, then ask the next relevant interview question.
