@@ -94,6 +94,45 @@ Be specific and reference actual details from the CV text, not generic advice.`;
   }
 });
 
+// ---- route: find real job listings matching a suggested role ----
+// body: { title: "Web Developer", location: "Jordan" }
+app.post('/api/find-jobs', async (req, res) => {
+  try {
+    const { title, location = 'Jordan' } = req.body;
+    if (!title) return res.status(400).json({ error: 'title is required' });
+
+    const JOOBLE_KEY = process.env.JOOBLE_API_KEY;
+    if (!JOOBLE_KEY) {
+      return res.status(500).json({ error: 'JOOBLE_API_KEY is not set on the server' });
+    }
+
+    const jRes = await fetch(`https://jooble.org/api/${JOOBLE_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ keywords: title, location }),
+    });
+
+    if (!jRes.ok) {
+      const errText = await jRes.text();
+      throw new Error(`Jooble API error (${jRes.status}): ${errText}`);
+    }
+
+    const data = await jRes.json();
+    const jobs = (data.jobs || []).slice(0, 5).map((j) => ({
+      title: j.title,
+      company: j.company,
+      location: j.location,
+      link: j.link,
+      snippet: j.snippet,
+    }));
+
+    res.json({ jobs });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch jobs', detail: String(err.message || err) });
+  }
+});
+
 // ---- route: interview simulation, one turn at a time ----
 // body: { role: "Frontend Developer", lang: "ar", history: [{role:"user"|"assistant", content:"..."}] }
 app.post('/api/interview', async (req, res) => {

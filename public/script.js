@@ -156,7 +156,86 @@ function renderResults(data){
   // pre-fill first suggested role into the interview role input
   if (data.suggestedRoles && data.suggestedRoles[0]) {
     roleInput.value = data.suggestedRoles[0].title;
+    fetchRealJobs(data.suggestedRoles[0].title, '');
   }
+}
+
+/* ---------------- real job search (Jooble) ---------------- */
+const jobsCard = document.getElementById('jobsCard');
+const jobsStatus = document.getElementById('jobsStatus');
+const jobsList = document.getElementById('jobsList');
+const jobsTitleInput = document.getElementById('jobsTitleInput');
+const jobsLocationInput = document.getElementById('jobsLocationInput');
+const jobsSearchBtn = document.getElementById('jobsSearchBtn');
+
+async function fetchRealJobs(title, location = ''){
+  jobsCard.hidden = false;
+  jobsTitleInput.value = title;
+  jobsList.innerHTML = '';
+  jobsStatus.textContent = I18N[currentLang].jobsLoading;
+  gsap.fromTo(jobsCard, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 });
+  renderQuickLinks(title);
+
+  try {
+    const res = await fetch('/api/find-jobs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, location })
+    });
+    const data = await res.json();
+
+    if (!data.jobs || data.jobs.length === 0) {
+      jobsStatus.textContent = I18N[currentLang].jobsEmpty;
+      return;
+    }
+
+    jobsStatus.textContent = '';
+    jobsList.innerHTML = data.jobs.map(j => `
+      <div class="job-card">
+        <div class="job-info">
+          <strong>${escapeHtml(j.title)}</strong>
+          <p>${escapeHtml(j.company || '')} — ${escapeHtml(j.location || '')}</p>
+        </div>
+        <div class="job-actions">
+          <a class="job-apply" href="${j.link}" target="_blank" rel="noopener">${I18N[currentLang].jobApply}</a>
+          <button class="job-train" data-title="${escapeHtml(j.title)}">${I18N[currentLang].jobTrain}</button>
+        </div>
+      </div>
+    `).join('');
+
+    jobsList.querySelectorAll('.job-train').forEach(btn => {
+      btn.addEventListener('click', () => {
+        roleInput.value = btn.getAttribute('data-title');
+        document.getElementById('interviewSection').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  } catch (err) {
+    jobsStatus.textContent = I18N[currentLang].jobsEmpty;
+  }
+}
+
+jobsSearchBtn.addEventListener('click', () => {
+  const t = jobsTitleInput.value.trim();
+  const l = jobsLocationInput.value.trim();
+  if (!t) return;
+  fetchRealJobs(t, l);
+});
+
+const quickLinks = document.getElementById('quickLinks');
+const quickLinksRow = document.getElementById('quickLinksRow');
+
+function renderQuickLinks(title){
+  const q = encodeURIComponent(`${title} jordan`);
+  const links = [
+    { name: 'LinkedIn', url: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(title)}&location=Jordan` },
+    { name: 'OpenSooq', url: `https://www.google.com/search?q=site:opensooq.com+${q}` },
+    { name: 'Bayt', url: `https://www.google.com/search?q=site:bayt.com+${q}` },
+    { name: 'Wuzzuf', url: `https://www.google.com/search?q=site:wuzzuf.net+${q}` },
+  ];
+  quickLinksRow.innerHTML = links.map(l =>
+    `<a class="quick-link-btn" href="${l.url}" target="_blank" rel="noopener">${l.name} ↗</a>`
+  ).join('');
+  quickLinks.hidden = false;
 }
 
 function escapeHtml(str){
@@ -164,6 +243,78 @@ function escapeHtml(str){
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+/* ---------------- voice: text-to-speech ---------------- */
+let voiceEnabled = true;
+const voiceToggleBtn = document.getElementById('voiceToggleBtn');
+voiceToggleBtn.classList.add('active');
+
+voiceToggleBtn.addEventListener('click', () => {
+  voiceEnabled = !voiceEnabled;
+  voiceToggleBtn.classList.toggle('active', voiceEnabled);
+  voiceToggleBtn.textContent = voiceEnabled
+    ? I18N[currentLang].voiceOn
+    : I18N[currentLang].voiceOff;
+  if (!voiceEnabled && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+});
+
+function speakText(text){
+  if (!voiceEnabled || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  const targetLangPrefix = currentLang === 'ar' ? 'ar' : 'en';
+  const voices = window.speechSynthesis.getVoices();
+  const match = voices.find(v => v.lang.toLowerCase().startsWith(targetLangPrefix));
+  if (match) {
+    utter.voice = match;
+    utter.lang = match.lang;
+  } else {
+    utter.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
+  }
+  utter.rate = 1;
+  window.speechSynthesis.speak(utter);
+}
+/* ---------------- voice: speech-to-text ---------------- */
+const micBtn = document.getElementById('micBtn');
+const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let isRecording = false;
+
+if (SpeechRecognitionAPI) {
+  recognition = new SpeechRecognitionAPI();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.addEventListener('result', (e) => {
+    const transcript = e.results[0][0].transcript;
+    chatInput.value = transcript;
+  });
+
+  recognition.addEventListener('end', () => {
+    isRecording = false;
+    micBtn.classList.remove('recording');
+  });
+
+  recognition.addEventListener('error', () => {
+    isRecording = false;
+    micBtn.classList.remove('recording');
+  });
+
+  micBtn.addEventListener('click', () => {
+    if (isRecording) {
+      recognition.stop();
+      return;
+    }
+    recognition.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
+    isRecording = true;
+    micBtn.classList.add('recording');
+    recognition.start();
+  });
+} else {
+  micBtn.hidden = true;
 }
 
 /* ---------------- interview simulation ---------------- */
@@ -199,6 +350,7 @@ async function interviewTurn(){
     thinkingEl.remove();
     addMessage('assistant', data.reply);
     interviewHistory.push({ role: 'assistant', content: data.reply });
+    speakText(data.reply);
   } catch (err) {
     thinkingEl.textContent = I18N[currentLang].analyzeError;
   }

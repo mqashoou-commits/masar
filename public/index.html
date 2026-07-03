@@ -92,6 +92,22 @@
       </div>
     </div>
   </div>
+
+  <div class="jobs-card" id="jobsCard" hidden>
+    <h3 data-i18n="jobsTitle">💼 وظائف حقيقية متاحة الآن</h3>
+    <div class="jobs-search-row">
+      <input type="text" id="jobsTitleInput" placeholder="مسمى وظيفي..." data-i18n-placeholder="jobsTitlePlaceholder">
+      <input type="text" id="jobsLocationInput" placeholder="الموقع (اختياري، فاضي = أي مكان)" data-i18n-placeholder="jobsLocationPlaceholder">
+      <button id="jobsSearchBtn" class="cta cta-solid" data-i18n="jobsSearchBtn">دور</button>
+    </div>
+    <p id="jobsStatus" class="status-text"></p>
+    <div id="jobsList" class="jobs-list"></div>
+
+    <div class="quick-links" id="quickLinks" hidden>
+      <p class="quick-links-label" data-i18n="quickLinksLabel">🔗 أو دور مباشرة بهاي المواقع:</p>
+      <div class="quick-links-row" id="quickLinksRow"></div>
+    </div>
+  </div>
 </section>
 
 <!-- SECTION: INTERVIEW SIMULATION -->
@@ -109,7 +125,11 @@
 
   <div class="chat-window" id="chatWindow" hidden>
     <div class="chat-log" id="chatLog"></div>
+    <div class="voice-row">
+      <button id="voiceToggleBtn" class="voice-toggle" type="button" data-i18n="voiceOn">🔊 الصوت شغال</button>
+    </div>
     <div class="chat-input-row">
+      <button id="micBtn" class="mic-btn" type="button" aria-label="Voice input">🎤</button>
       <input type="text" id="chatInput" placeholder="اكتب إجابتك هون..." data-i18n-placeholder="chatPlaceholder">
       <button id="sendReplyBtn" class="cta cta-solid" data-i18n="send">إرسال</button>
     </div>
