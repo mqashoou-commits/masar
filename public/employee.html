@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>بوابة الموظف | Masar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hr.css">
+<link rel="stylesheet" href="hrm.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">بوابة الموظف</span>
+  </div>
+  <button id="logoutBtn" class="lang-toggle" hidden>تسجيل خروج</button>
+</header>
+
+<main class="hr-wrap">
+
+  <!-- LOGIN -->
+  <section class="hr-card" id="loginCard">
+    <span class="tag">تسجيل الدخول</span>
+    <h2>أهلاً فيك</h2>
+    <label>اسم الشركة</label>
+    <input type="text" id="loginCompany" placeholder="اسم الشركة يلي بتشتغل فيها">
+    <label>الاسم</label>
+    <input type="text" id="loginName" placeholder="اكتب اسمك بالظبط متل ما مسجل عند الإدارة">
+    <label>كلمة السر</label>
+    <input type="password" id="loginPassword" placeholder="كلمة السر">
+    <button id="loginBtn" class="cta cta-solid">دخول</button>
+    <p id="loginStatus" class="status-text"></p>
+  </section>
+
+  <!-- DASHBOARD -->
+  <div id="empDashboard" hidden>
+
+    <section class="hr-card">
+      <span class="tag">أهلاً، <span id="empNameDisplay"></span></span>
+      <h2> راتب هذا الشهر</h2>
+      <input type="month" id="payMonthSelect">
+      <button id="loadPayBtn" class="cta cta-solid small">عرض التفاصيل</button>
+      <div id="payrollBox"></div>
+    </section>
+
+    <section class="hr-card">
+      <h3 class="cand-list-title">📋 الخصومات (التاريخ والسبب)</h3>
+      <div id="deductionsList" class="candidates-list"></div>
+    </section>
+
+    <section class="hr-card">
+      <h2> طلب إجازة</h2>
+      <label>نوع الإجازة</label>
+      <select id="leaveType">
+        <option value="annual">سنوية</option>
+        <option value="sick">مرضية</option>
+        <option value="unpaid">بدون أجر</option>
+      </select>
+      <label>من تاريخ</label>
+      <input type="date" id="leaveStart">
+      <label>إلى تاريخ</label>
+      <input type="date" id="leaveEnd">
+      <label>السبب</label>
+      <textarea id="leaveReason" placeholder="اكتب سبب الإجازة..."></textarea>
+      <button id="submitLeaveBtn" class="cta cta-solid">إرسال الطلب</button>
+      <p id="leaveStatus" class="status-text"></p>
+    </section>
+
+    <section class="hr-card">
+      <h3 class="cand-list-title">طلباتي السابقة للإجازات</h3>
+      <div id="myLeavesList" class="candidates-list"></div>
+    </section>
+
+    <section class="hr-card">
+      <h2> طلب سلفة</h2>
+      <label>المبلغ (دينار)</label>
+      <input type="text" id="advAmount" placeholder="مثال: 100">
+      <label>عدد الأقساط (بالأشهر)</label>
+      <input type="text" id="advInstallments" placeholder="مثال: 3">
+      <label>السبب</label>
+      <textarea id="advReason" placeholder="اكتب سبب طلب السلفة..."></textarea>
+      <button id="submitAdvBtn" class="cta cta-solid">إرسال الطلب</button>
+      <p id="advStatus" class="status-text"></p>
+    </section>
+
+    <section class="hr-card">
+      <h3 class="cand-list-title">سلف السابقة</h3>
+      <div id="myAdvancesList" class="candidates-list"></div>
+    </section>
+
+  </div>
+
+</main>
+
+<script src="employee.js"></script>
+</body>
+</html>

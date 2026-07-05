@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>مقابلة العمل | Masar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hr.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">مسار</span>
+  </div>
+</header>
+
+<main class="hr-wrap">
+  <section class="hr-card" id="introCard">
+    <span class="tag">مقابلة عمل حقيقية</span>
+    <h2 id="jobTitleDisplay">جاري التحميل...</h2>
+    <p class="panel-sub">هاي مقابلة حقيقية لفرصة عمل فعلية. جاوب بصدق ووضوح — إجاباتك رح توصل مباشرة لفريق التوظيف.</p>
+    <button id="startBtn" class="cta cta-solid">ابدأ المقابلة</button>
+  </section>
+
+  <section class="chat-window" id="chatWindow" hidden>
+    <div class="chat-log" id="chatLog"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="اكتب إجابتك هون...">
+      <button id="sendBtn" class="cta cta-solid">إرسال</button>
+    </div>
+  </section>
+
+  <section class="hr-card" id="doneCard" hidden>
+    <span class="tag">تم</span>
+    <h2>شكراً لك! ✅</h2>
+    <p class="panel-sub">خلصت المقابلة بنجاح. فريق التوظيف رح يراجع إجاباتك ويتواصل معك قريباً.</p>
+  </section>
+</main>
+
+<script src="apply.js"></script>
+</body>
+</html>

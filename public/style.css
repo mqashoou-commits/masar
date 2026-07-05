@@ -261,7 +261,13 @@ textarea:focus, input:focus{ outline: 2px solid var(--accent-teal); outline-offs
   padding: 16px; font-family: var(--font-body);
 }
 .chat-input-row .cta{ border-radius: 0; padding: 16px 24px; }
-
+@keyframes pasteBlocked{
+  0%, 100% { border-color: var(--border); }
+  50% { border-color: #ff5c5c; }
+}
+.chat-input-row input.paste-blocked{
+  animation: pasteBlocked 0.5s ease;
+}
 /* ---- footer ---- */
 .footer{ text-align:center; padding: 40px 24px 60px; color: var(--muted); font-size: 0.85rem; }
 

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>نظام إدارة الموظفين | Masar HRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hr.css">
+<link rel="stylesheet" href="hrm.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">نظام إدارة الموظفين</span>
+  </div>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">نظام إدارة الموظفين</span>
+  </div>
+  <a href="hr.html" class="lang-toggle">مسار لأصحاب العمل</a>
+  <a href="hr.html" class="lang-toggle">التوظيف</a>
+</header>  
+</header>
+
+<main class="hr-wrap wide">
+
+  <!-- COMPANY LOGIN/REGISTER -->
+  <section class="hr-card" id="companyAuthCard">
+    <span class="tag">حساب الشركة</span>
+    <h2>سجل دخول أو أنشئ حساب شركتك</h2>
+    <label>اسم الشركة</label>
+    <input type="text" id="companyName" placeholder="اسم شركتك">
+    <label>كلمة السر</label>
+    <input type="password" id="companyPassword" placeholder="كلمة السر">
+    <div class="btn-row">
+      <button id="companyLoginBtn" class="cta cta-solid">دخول</button>
+      <button id="companyRegisterBtn" class="cta">إنشاء حساب جديد</button>
+    </div>
+    <p id="companyAuthStatus" class="status-text"></p>
+  </section>
+
+  <div id="hrmContent" hidden>
+
+  <div class="dash-head">
+    <span class="tag">شركة: <span id="companyNameDisplay"></span></span>
+    <button id="companyLogoutBtn" class="cta small">تسجيل خروج</button>
+  </div>
+
+  <nav class="hrm-tabs">
+    <button class="hrm-tab active" data-tab="employees">👥 الموظفون</button>
+    <button class="hrm-tab" data-tab="attendance"> الحضور والانصراف</button>
+    <button class="hrm-tab" data-tab="leave"> الإجازات</button>
+    <button class="hrm-tab" data-tab="advance"> السلف</button>
+    <button class="hrm-tab" data-tab="payroll"> الرواتب</button>
+  </nav>
+
+  <!-- EMPLOYEES -->
+  <section class="hrm-panel active" id="panel-employees">
+    <div class="hr-card">
+      <h2>إضافة موظف جديد</h2>
+      <label>الاسم</label>
+      <input type="text" id="empName" placeholder="اسم الموظف">
+      <label>المسمى الوظيفي</label>
+      <input type="text" id="empPosition" placeholder="مثال: مطور برمجيات">
+      <label>الراتب الشهري (دينار)</label>
+      <input type="text" id="empSalary" placeholder="مثال: 600">
+      <label>تاريخ بداية العمل</label>
+      <input type="date" id="empStartDate">
+      <label>موعد بداية الدوام</label>
+      <input type="time" id="empWorkStart" value="09:00">
+      <button id="addEmpBtn" class="cta cta-solid">إضافة الموظف</button>
+      <p id="empStatus" class="status-text"></p>
+      <div id="newPasswordBox" class="new-password-box" hidden></div>
+    </div>
+
+    <div class="hr-card">
+      <h3 class="cand-list-title">قائمة الموظفين</h3>
+      <div id="employeesList" class="candidates-list"></div>
+    </div>
+  </section>
+
+  <!-- ATTENDANCE -->
+  <section class="hrm-panel" id="panel-attendance">
+    <div class="hr-card">
+      <h2>تسجيل حضور / انصراف</h2>
+      <label>اختر الموظف</label>
+      <select id="attEmpSelect"></select>
+      <div class="btn-row">
+        <button id="checkInBtn" class="cta cta-solid">✅ تسجيل حضور</button>
+        <button id="checkOutBtn" class="cta cta-solid"> تسجيل انصراف</button>
+      </div>
+      <p id="attStatus" class="status-text"></p>
+    </div>
+    <div class="hr-card">
+      <h3 class="cand-list-title">سجل الحضور (آخر 15 يوم)</h3>
+      <div id="attendanceList" class="candidates-list"></div>
+    </div>
+  </section>
+
+  <!-- LEAVE -->
+  <section class="hrm-panel" id="panel-leave">
+    <div class="hr-card">
+      <h2>طلب إجازة</h2>
+      <label>اختر الموظف</label>
+      <select id="leaveEmpSelect"></select>
+      <label>نوع الإجازة</label>
+      <select id="leaveType">
+        <option value="annual">سنوية</option>
+        <option value="sick">مرضية</option>
+        <option value="unpaid">بدون أجر</option>
+      </select>
+      <label>من تاريخ</label>
+      <input type="date" id="leaveStart">
+      <label>إلى تاريخ</label>
+      <input type="date" id="leaveEnd">
+      <button id="submitLeaveBtn" class="cta cta-solid">إرسال الطلب</button>
+      <p id="leaveStatus" class="status-text"></p>
+    </div>
+    <div class="hr-card">
+      <h3 class="cand-list-title">طلبات الإجازة</h3>
+      <div id="leaveList" class="candidates-list"></div>
+    </div>
+  </section>
+
+  <!-- ADVANCE -->
+  <section class="hrm-panel" id="panel-advance">
+    <div class="hr-card">
+      <h2>طلب سلفة</h2>
+      <label>اختر الموظف</label>
+      <select id="advEmpSelect"></select>
+      <label>المبلغ (دينار)</label>
+      <input type="text" id="advAmount" placeholder="مثال: 100">
+      <label>عدد الأقساط (بالأشهر)</label>
+      <input type="text" id="advInstallments" placeholder="مثال: 3">
+      <button id="submitAdvBtn" class="cta cta-solid">تسجيل السلفة</button>
+      <p id="advStatus" class="status-text"></p>
+    </div>
+    <div class="hr-card">
+      <h3 class="cand-list-title">السلف المسجلة</h3>
+      <div id="advanceList" class="candidates-list"></div>
+    </div>
+  </section>
+
+  <!-- PAYROLL -->
+  <section class="hrm-panel" id="panel-payroll">
+    <div class="hr-card">
+      <h2>حساب الراتب الشهري</h2>
+      <label>اختر الموظف</label>
+      <select id="payEmpSelect"></select>
+      <label>الشهر</label>
+      <input type="month" id="payMonth">
+      <button id="calcPayBtn" class="cta cta-solid">احسب الراتب</button>
+    </div>
+    <div class="hr-card" id="payrollResult" hidden></div>
+  </section>
+
+  </div>
+
+</main>
+
+<script src="hrm.js"></script>
+</body>
+</html>

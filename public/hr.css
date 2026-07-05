@@ -1,0 +1,53 @@
+.hr-wrap{ max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; }
+
+.hr-card{
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px; margin-bottom: 24px;
+}
+.hr-card h2{ font-size: 1.5rem; margin: 10px 0 8px; }
+.hr-card label{ display:block; color: var(--muted); font-size: 0.85rem; margin: 16px 0 6px; }
+.hr-card input[type="text"], .hr-card textarea{
+  width:100%; background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; font-family: var(--font-body); font-size: 0.95rem;
+}
+.hr-card textarea{ min-height: 140px; resize: vertical; }
+.hr-card .cta{ margin-top: 18px; }
+.cta.small{ padding: 10px 20px; font-size: 0.85rem; }
+
+.dash-head{ display:flex; align-items:center; justify-content:space-between; gap: 16px; flex-wrap: wrap; }
+
+.upload-row{ display:flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; align-items:center; }
+.upload-row input[type="text"]{ flex:1; min-width: 200px; }
+
+.cand-list-title{ margin-top: 28px; margin-bottom: 14px; font-size: 1.05rem; }
+.candidates-list{ display:flex; flex-direction:column; gap: 14px; }
+
+.cand-card{
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px;
+}
+.cand-card-head{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+.cand-name{ font-weight:700; }
+.cand-score{
+  font-family: var(--font-mono); font-weight:600;
+  color: var(--accent-amber); font-size: 1.1rem;
+}
+.cand-rec{
+  display:inline-block; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px;
+  margin-inline-start: 8px;
+}
+.rec-shortlist, .rec-proceed{ background: rgba(79,209,197,0.15); color: var(--accent-teal); }
+.rec-maybe, .rec-proceed_with_reservations{ background: rgba(242,166,90,0.15); color: var(--accent-amber); }
+.rec-reject, .rec-not_recommended{ background: rgba(255,92,92,0.15); color: #ff8080; }
+
+.cand-details{ margin-top: 10px; font-size: 0.85rem; color: var(--muted); }
+.cand-details ul{ margin: 6px 0; padding-inline-start: 18px; }
+.cand-invite-link{
+  margin-top: 10px; display:flex; gap: 8px; align-items:center; flex-wrap: wrap;
+}
+.cand-invite-link input{
+  flex:1; min-width: 200px; font-size: 0.78rem;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 8px 10px; color: var(--muted); font-family: var(--font-mono);
+}

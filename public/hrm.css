@@ -1,0 +1,36 @@
+.hr-wrap.wide{ max-width: 900px; }
+
+.hrm-tabs{
+  display:flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+  border-bottom: 1px solid var(--border); padding-bottom: 12px;
+}
+.dash-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px; }
+.hrm-tab{
+  background: transparent; border: 1px solid var(--border); color: var(--muted);
+  border-radius: 999px; padding: 8px 18px; font-size: 0.85rem; cursor:pointer;
+  font-family: var(--font-body); transition: all .2s ease;
+}
+.hrm-tab.active, .hrm-tab:hover{ color: var(--accent-teal); border-color: var(--accent-teal); }
+
+.hrm-panel{ display:none; }
+.hrm-panel.active{ display:block; }
+
+.hr-card select{
+  width:100%; background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; font-family: var(--font-body); font-size: 0.95rem;
+}
+
+.btn-row{ display:flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.btn-row .cta{ margin-top: 0; flex: 1; }
+
+.payroll-row{ display:flex; justify-content:space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+.payroll-row:last-child{ border-bottom:none; font-weight:700; font-size: 1.1rem; color: var(--accent-amber); }
+
+.new-password-box{
+  margin-top: 16px; padding: 16px; border-radius: 12px;
+  background: rgba(242,166,90,0.1); border: 1px solid var(--accent-amber);
+  font-size: 0.9rem;
+}
+.new-password-box strong{ font-family: var(--font-mono); font-size: 1.3rem; color: var(--accent-amber); letter-spacing: 2px; }
+.emp-password strong{ font-family: var(--font-mono); color: var(--accent-amber); letter-spacing: 1px; }

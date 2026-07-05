@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>مسار لأصحاب العمل | Masar for Employers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hr.css">
+<link rel="stylesheet" href="hrm.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">مسار لأصحاب العمل</span>
+  </div>
+  
+  <a href="hrm.html" class="lang-toggle" style="margin-inline-start:8px;">إدارة الموظفين 👥</a>
+</header>
+
+<main class="hr-wrap">
+
+  <!-- COMPANY LOGIN/REGISTER -->
+  <section class="hr-card" id="companyAuthCard">
+    <span class="tag">حساب الشركة</span>
+    <h2>سجل دخول أو أنشئ حساب شركتك</h2>
+    <label>اسم الشركة</label>
+    <input type="text" id="companyName" placeholder="اسم شركتك">
+    <label>كلمة السر</label>
+    <input type="password" id="companyPassword" placeholder="كلمة السر">
+    <div class="btn-row">
+      <button id="companyLoginBtn" class="cta cta-solid">دخول</button>
+      <button id="companyRegisterBtn" class="cta">إنشاء حساب جديد</button>
+    </div>
+    <p id="companyAuthStatus" class="status-text"></p>
+  </section>
+
+  <div id="hrContent" hidden>
+  <div class="dash-head">
+    <span class="tag">شركة: <span id="companyNameDisplay"></span></span>
+    <button id="companyLogoutBtn" class="cta small">تسجيل خروج</button>
+  </div>
+
+  <!-- LIST OF JOBS -->
+  <section class="hr-card" id="jobsListCard">
+    <h2>وظائفك المنشورة</h2>
+    <div id="jobsListContainer" class="candidates-list"></div>
+    <button id="newJobBtn" class="cta cta-solid" style="margin-top:16px;">+ وظيفة جديدة</button>
+  </section>
+
+  <!-- STEP 1: create job -->
+  <section class="hr-card" id="createJobCard" hidden>
+    <span class="tag">وظيفة جديدة</span>
+    <h2>أنشئ وظيفة جديدة</h2>
+    <p class="panel-sub">اكتب تفاصيل الوظيفة، وخل مسار يفرز لك المرشحين تلقائياً.</p>
+
+    <label>المسمى الوظيفي</label>
+    <input type="text" id="jobTitle" placeholder="مثال: مطور واجهات أمامية">
+
+    <label>وصف الوظيفة والمتطلبات</label>
+    <textarea id="jobDescription" placeholder="الصق وصف الوظيفة كامل هون..."></textarea>
+
+    <div class="btn-row">
+      <button id="createJobBtn" class="cta cta-solid">أنشئ الوظيفة</button>
+      <button id="cancelNewJobBtn" class="cta">إلغاء</button>
+    </div>
+    <p id="createJobStatus" class="status-text"></p>
+  </section>
+
+  <!-- STEP 2: dashboard (hidden until job created / loaded) -->
+  <section class="hr-card" id="dashboardCard" hidden>
+    <div class="dash-head">
+      <div>
+        <span class="tag">لوحة التحكم</span>
+        <h2 id="dashJobTitle">—</h2>
+      </div>
+      <button id="copyLinkBtn" class="cta cta-solid small">📋 انسخ رابط الوظيفة</button>
+    </div>
+
+    <div class="upload-row">
+      <input type="text" id="candName" placeholder="اسم المرشح (اختياري)">
+      <label class="file-btn">
+        <input type="file" id="candCvFile" accept="application/pdf" hidden>
+        <span>📄 ارفع CV المرشح</span>
+      </label>
+    </div>
+    <p id="uploadStatus" class="status-text"></p>
+
+    <h3 class="cand-list-title"> المرشحون (مرتبين حسب الأنسب)</h3>
+    <div id="candidatesList" class="candidates-list"></div>
+  </section>
+  </div>
+
+</main>
+
+<script src="hr.js"></script>
+</body>
+</html>
